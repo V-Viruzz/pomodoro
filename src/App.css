@@ -13,16 +13,7 @@
 .container-time {
   display: flex;
 }
-main .container-input {
-  position: absolute;
-  background-color: rgb(51, 51, 51);
-  padding: 30px;
-  width: 20rem;
-  height: 4rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 25px;
-  font-size: 40px;
+
+.time .invisible {
+  display: none;
 }

@@ -1,0 +1,34 @@
+.container-input {
+  position: absolute;
+  /* padding: 30px; */
+  width: 26rem;
+  /* height: 21rem; */
+  /* top: 0; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: space-evenly; */
+  border-radius: 25px;
+  font-size: 40px;
+  margin-bottom: 17rem;
+}
+.container-input .container-input-son{
+  width: 23rem;
+  height: 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  font-size: 40px;
+  background-color: rgb(41, 41, 41);
+}
+
+.container-time .container-input input {
+  width: 300px !important;
+  height: 40px;
+  font-size: 30px;
+  padding: 15px;
+  border: solid 1px rgba(255, 255, 255, 0.24);
+  border-radius: 20px;
+}
