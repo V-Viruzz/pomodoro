@@ -27,5 +27,4 @@ const formatTime = (timeMs) => {
   return timeAll;
 };
 
-
-export { convertPretty, convertToMil, formatTime }
+export { convertPretty, convertToMil, formatTime };

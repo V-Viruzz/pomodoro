@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "./Button";
-import "../Style/Time.css";
+import "./Style/Time.css";
 
 function Time({ title, valueTime, clickStart, clickStop, input, hideDiv }) {
   const [classDiv, setClass] = React.useState(true);
@@ -26,10 +26,14 @@ function Time({ title, valueTime, clickStart, clickStop, input, hideDiv }) {
       </div>
 
       <div className="buttons-container">
-        <Button text="Start" isButtonClick={true} clickFunct={() => {
-          clickStart()
-          setClass(true)
-          }} />
+        <Button
+          text="Start"
+          isButtonClick={true}
+          clickFunct={() => {
+            clickStart();
+            setClass(true);
+          }}
+        />
         <Button text="Stop" isButtonClick={false} clickFunct={clickStop} />
       </div>
       <div className={`container-input ${classDiv ? "invisible" : ""}`}>

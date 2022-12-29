@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import mySound from "./assets/pomoStart.mp3";
-import mySound2 from "./assets/pomoFinal.mp3";
-import { convertPretty, convertToMil, formatTime } from './utils/convert'
+import { useState } from "react";
+import mySound from "../assets/pomoStart.mp3";
+import mySound2 from "../assets/pomoFinal.mp3";
+import { convertToMil, formatTime } from "./convert";
 let interval;
+
+const NOTIFICATION_TITLE = "Pomodoro ACABO!";
+const NOTIFICATION_BODY =
+  "Tomate 5 minutos de descanso, preferiblemente no sentado";
+const CLICK_MESSAGE = "Notification clicked!";
 
 const useTimer = ({ res = 0 } = {}) => {
   const [audioBreak] = useState(new Audio(mySound));
@@ -21,6 +26,9 @@ const useTimer = ({ res = 0 } = {}) => {
         timeMillis = 5000 + 1000;
         audioBreak.volume = 0.3;
         audioBreak.play();
+        new Notification(NOTIFICATION_TITLE, {
+          body: NOTIFICATION_BODY,
+        }).onclick = () => console.log(CLICK_MESSAGE);
       } else if (timeMillis <= 0 && !breakTime && res) {
         timeMillis = convertToMil(time) + 1000;
         breakTime = true;
@@ -47,7 +55,6 @@ const useTimer = ({ res = 0 } = {}) => {
   };
   const fnStop = () => {
     clearInterval(interval);
-    // setTime(formatTime(timeMillis));
   };
   return {
     time,
