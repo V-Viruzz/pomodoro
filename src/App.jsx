@@ -1,53 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Time from "./components/Time";
 import InputTime from "./components/InputTime";
+import mySound from "./assets/pomoStart.mp3";
+import mySound2 from "./assets/pomoFinal.mp3";
+import { convertPretty, convertToMil, formatTime } from './utils/convert'
+// import useTimer from './utils/hooks'
+let interval;
 
-const convertPretty = (str) => {
-  const dataArray = str.split(":");
-  const hr = dataArray[0] === "00" ? "" : `${dataArray[0]}:`;
-  return `${hr}${dataArray[1]}:${dataArray[2]}`;
-};
 
-function convertToMil(time) {
-  let value = time.split(":");
-  let secondsToMs = parseInt(value[2]) * 1000;
-  let minutesToMs = parseInt(value[1]) * 60000;
-  let hoursToMs = parseInt(value[0]) * 3600000;
-  time = secondsToMs + minutesToMs + hoursToMs;
-
-  return time;
-}
-
-function formatTime(timeMs) {
-  const ms = timeMs;
-  const seg = parseInt(ms / 1000) % 60;
-  const min = parseInt(ms / 60000) % 60;
-  const hr = parseInt(ms / 3600000) % 24;
-  const segStr = `0${seg}`.slice(-2);
-  const minStr = `0${min}`.slice(-2);
-  const hrStr = `0${hr}`.slice(-2);
-  const timeAll = `${hrStr}:${minStr}:${segStr}`;
-
-  return timeAll;
-}
-
-const useTimer = () => {
+const useTimer = ({ res = 0 } = {}) => {
+  const [audioBreak] = useState(new Audio(mySound));
+  const [audioStart] = useState(new Audio(mySound2));
   const [time, setTime] = useState("00:00:00");
   const setValue = (value) => setTime(value);
   let timeMillis;
   let breakTime = true;
   timeMillis = convertToMil(time);
 
-  const fnstart = () => {
+  const fnStart = () => {
     let dateNow = new Date().getSeconds();
-    setInterval(() => {
-      if (timeMillis <= 0 && breakTime) {
+    interval = setInterval(() => {
+      if (timeMillis <= 0 && breakTime && res) {
         breakTime = false;
-        timeMillis = 5000;
-      } else if (timeMillis <= 0 && !breakTime) {
-        timeMillis = convertToMil(time);
+        timeMillis = 5000 + 1000;
+        audioBreak.volume = 0.3;
+        audioBreak.play();
+      } else if (timeMillis <= 0 && !breakTime && res) {
+        timeMillis = convertToMil(time) + 1000;
         breakTime = true;
+        audioStart.volume = 0.3;
+        audioStart.play();
+      }
+
+      // condicion para timer
+      if (timeMillis <= 0 && !res) {
+        audioBreak.volume = 0.3;
+        audioBreak.play();
+        clearInterval(interval);
+        return;
       }
       const dateIncre = new Date().getSeconds();
 
@@ -59,26 +50,23 @@ const useTimer = () => {
       }
     }, 500);
   };
+  const fnStop = () => {
+    clearInterval(interval);
+    // setTime(formatTime(timeMillis));
+  };
   return {
     time,
     setValue,
-    fnstart,
+    fnStart,
+    fnStop,
   };
 };
 
 function App() {
-  const pomodoro = useTimer();
+  const pomodoro = useTimer({ res: true });
   const timer = useTimer();
   const chrono = useTimer();
 
-  function fnStart() {
-    console.log("wtf start");
-    // console.log(value);
-    // setTime(`${value.$H}:${value.$m}:${value.$s}`)
-  }
-  function fnStop() {
-    console.log("wtf stop");
-  }
   return (
     <div className="App">
       <main className="container-app">
@@ -86,8 +74,8 @@ function App() {
           <Time
             title="Pomodoro"
             valueTime={convertPretty(pomodoro.time)}
-            clickStart={pomodoro.fnstart}
-            clickStop={fnStop}
+            clickStart={pomodoro.fnStart}
+            clickStop={pomodoro.fnStop}
             input={
               <InputTime
                 onChange={(event, value) => pomodoro.setValue(value)}
@@ -97,27 +85,19 @@ function App() {
           <Time
             title="Timer"
             valueTime={convertPretty(timer.time)}
-            clickStart={fnStart}
-            clickStop={fnStop}
+            clickStart={timer.fnStart}
+            clickStop={timer.fnStop}
             input={
-              <InputTime
-                onChange={(event, value) =>
-                  timer.setValue(convertPretty(value))
-                }
-              />
+              <InputTime onChange={(event, value) => timer.setValue(value)} />
             }
           />
           <Time
             title="Chronometer"
             valueTime={convertPretty(chrono.time)}
-            clickStart={fnStart}
-            clickStop={fnStop}
+            clickStart={chrono.fnStart}
+            clickStop={chrono.fnStop}
             input={
-              <InputTime
-                onChange={(event, value) =>
-                  chrono.setValue(convertPretty(value))
-                }
-              />
+              <InputTime onChange={(event, value) => chrono.setValue(value)} />
             }
           />
         </div>

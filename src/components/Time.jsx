@@ -2,7 +2,7 @@ import React from "react";
 import Button from "./Button";
 import "../Style/Time.css";
 
-function Time({ title, valueTime, clickStart, clickStop, input }) {
+function Time({ title, valueTime, clickStart, clickStop, input, hideDiv }) {
   const [classDiv, setClass] = React.useState(true);
 
   return (
@@ -16,6 +16,7 @@ function Time({ title, valueTime, clickStart, clickStop, input }) {
           <span
             className="value"
             onClick={() => {
+              clickStop();
               setClass(!classDiv);
             }}
           >
@@ -25,7 +26,10 @@ function Time({ title, valueTime, clickStart, clickStop, input }) {
       </div>
 
       <div className="buttons-container">
-        <Button text="Start" isButtonClick={true} clickFunct={clickStart} />
+        <Button text="Start" isButtonClick={true} clickFunct={() => {
+          clickStart()
+          setClass(true)
+          }} />
         <Button text="Stop" isButtonClick={false} clickFunct={clickStop} />
       </div>
       <div className={`container-input ${classDiv ? "invisible" : ""}`}>
