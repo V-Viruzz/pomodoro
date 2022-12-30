@@ -6,16 +6,14 @@ import useTimer from "./utils/hooks";
 import { convertPretty } from "./utils/convert";
 
 function App() {
-  const pomodoro = useTimer({ res: true });
-  const timer = useTimer();
-  const chrono = useTimer();
+  const pomodoro = useTimer({ res: "pomo" });
+  const timer = useTimer({ res: "timer" });
+  const chrono = useTimer({ res: "chrono" });
 
   useEffect(() => {
-    Notification.requestPermission().then((response) => {
-      console.log("respuesta", response);
-    });
+    Notification.requestPermission();
+    // .then((response) => console.log("respuesta", response));
   }, []);
-
 
   return (
     <div className="App">
@@ -46,9 +44,10 @@ function App() {
             valueTime={convertPretty(chrono.time)}
             clickStart={chrono.fnStart}
             clickStop={chrono.fnStop}
-            input={
-              <InputTime onChange={(event, value) => chrono.setValue(value)} />
-            }
+            reset={true}
+            // input={
+            //   <InputTime onChange={(event, value) => chrono.setValue(value)} />
+            // }
           />
         </div>
       </main>

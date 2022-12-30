@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 import "./Style/Time.css";
 
-function Time({ title, valueTime, clickStart, clickStop, input, hideDiv }) {
-  const [classDiv, setClass] = React.useState(true);
+function Time({
+  title,
+  valueTime,
+  clickStart,
+  clickStop = 0,
+  input,
+  reset = false,
+}) {
+  const [classInput, setClassInput] = useState(true);
+  const [resetBtn, setResetBtn] = useState(reset);
+  const [nameButton, setnameButton] = useState("Start");
 
   return (
     <div className="time">
@@ -16,8 +25,10 @@ function Time({ title, valueTime, clickStart, clickStop, input, hideDiv }) {
           <span
             className="value"
             onClick={() => {
-              clickStop();
-              setClass(!classDiv);
+              if (!reset) {
+                clickStop();
+                setClassInput(!classInput);
+              }
             }}
           >
             {valueTime}
@@ -27,16 +38,31 @@ function Time({ title, valueTime, clickStart, clickStop, input, hideDiv }) {
 
       <div className="buttons-container">
         <Button
-          text="Start"
+          text={nameButton}
           isButtonClick={true}
           clickFunct={() => {
+            resetBtn ? setnameButton("Reset") : setnameButton("Start");
+            reset ? setResetBtn(!resetBtn): '';
+            
             clickStart();
-            setClass(true);
+            setClassInput(true);
           }}
         />
-        <Button text="Stop" isButtonClick={false} clickFunct={clickStop} />
+
+        {clickStop === 0 ? (
+          console.log("no hay boton")
+        ) : (
+          <Button
+            text="Stop"
+            isButtonClick={false}
+            clickFunct={() => {
+              nameButton == "Reset" ? setnameButton("Start") : "";
+              clickStop();
+            }}
+          />
+        )}
       </div>
-      <div className={`container-input ${classDiv ? "invisible" : ""}`}>
+      <div className={`container-input ${classInput ? "invisible" : ""}`}>
         {input}
       </div>
     </div>

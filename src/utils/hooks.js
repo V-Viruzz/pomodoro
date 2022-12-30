@@ -2,60 +2,93 @@ import { useState } from "react";
 import mySound from "../assets/pomoStart.mp3";
 import mySound2 from "../assets/pomoFinal.mp3";
 import { convertToMil, formatTime } from "./convert";
-let interval;
 
 const NOTIFICATION_TITLE = "Pomodoro ACABO!";
 const NOTIFICATION_BODY =
   "Tomate 5 minutos de descanso, preferiblemente no sentado";
 const CLICK_MESSAGE = "Notification clicked!";
 
+const notifi = () => {
+  new Notification(NOTIFICATION_TITLE, {
+    body: NOTIFICATION_BODY,
+  }).onclick = () => console.log(CLICK_MESSAGE);
+};
+
 const useTimer = ({ res = 0 } = {}) => {
   const [audioBreak] = useState(new Audio(mySound));
   const [audioStart] = useState(new Audio(mySound2));
   const [time, setTime] = useState("00:00:00");
+  const [interval, setIntervalReact] = useState(0);
+  const [toggleReset, setToggleReset] = useState(false);
   const setValue = (value) => setTime(value);
-  let timeMillis;
   let breakTime = true;
+  let timeMillis;
   timeMillis = convertToMil(time);
 
   const fnStart = () => {
     let dateNow = new Date().getSeconds();
-    interval = setInterval(() => {
-      if (timeMillis <= 0 && breakTime && res) {
-        breakTime = false;
-        timeMillis = 5000 + 1000;
-        audioBreak.volume = 0.3;
-        audioBreak.play();
-        new Notification(NOTIFICATION_TITLE, {
-          body: NOTIFICATION_BODY,
-        }).onclick = () => console.log(CLICK_MESSAGE);
-      } else if (timeMillis <= 0 && !breakTime && res) {
-        timeMillis = convertToMil(time) + 1000;
-        breakTime = true;
-        audioStart.volume = 0.3;
-        audioStart.play();
-      }
+    setToggleReset(!toggleReset);
 
-      // condicion para timer
-      if (timeMillis <= 0 && !res) {
-        audioBreak.volume = 0.3;
-        audioBreak.play();
-        clearInterval(interval);
-        return;
-      }
-      const dateIncre = new Date().getSeconds();
+    // Condicional para chrono
+    if (res == "chrono" && toggleReset) {
+      timeMillis = 0;
+      setToggleReset(false);
+      setTime(formatTime(timeMillis));
+      console.log('reset')
+      fnStop();
+      return;
+    }
+    setIntervalReact(
+      setInterval(() => {
+        // Condicion para Pomodoro
+        if (timeMillis <= 0 && breakTime && res == "pomo") {
+          timeMillis = 5000 + 1000;
+          breakTime = false;
+          audioBreak.volume = 0.3;
+          audioBreak.play();
+          notifi();
+          console.log("pomo start");
+        } else if (timeMillis <= 0 && !breakTime && res == "pomo") {
+          timeMillis = convertToMil(time) + 1000;
+          breakTime = true;
+          audioStart.volume = 0.3;
+          audioStart.play();
+          notifi();
+          console.log("pomo descam");
+        }
 
-      // Ejecucion cada segundo
-      if (dateNow !== dateIncre) {
-        dateNow = dateIncre;
-        timeMillis = timeMillis - 1000;
-        setTime(formatTime(timeMillis));
-      }
-    }, 500);
+        // Condicion para Timer
+        if (timeMillis <= 0 && res == "timer") {
+          audioBreak.volume = 0.3;
+          audioBreak.play();
+          notifi();
+          console.log(interval);
+          clearInterval(interval);
+          return;
+        }
+
+        const dateIncre = new Date().getSeconds();
+
+        // Ejecucion cada segundo
+        if (dateNow !== dateIncre) {
+          dateNow = dateIncre;
+          if (res == "chrono") {
+            timeMillis = timeMillis + 1000;
+          } else {
+            timeMillis = timeMillis - 1000;
+          }
+
+          setTime(formatTime(timeMillis));
+        }
+      }, 500)
+    );
+    console.log(interval);
+
   };
   const fnStop = () => {
     clearInterval(interval);
   };
+
   return {
     time,
     setValue,
