@@ -1,6 +1,6 @@
 import { useState } from "react";
-import mySound from "../assets/pomoStart.mp3";
-import mySound2 from "../assets/pomoFinal.mp3";
+// import mySound from "../assets/pomoStart.mp3";
+// import mySound2 from "../assets/pomoFinal.mp3";
 import { convertToMil, formatTime } from "./convert";
 
 const NOTIFICATION_TITLE = "Pomodoro ACABO!";
@@ -15,8 +15,8 @@ const notifi = () => {
 };
 
 const useTimer = ({ res = 0 } = {}) => {
-  const [audioBreak] = useState(new Audio(mySound));
-  const [audioStart] = useState(new Audio(mySound2));
+  // const [audioBreak] = useState(new Audio(mySound));
+  // const [audioStart] = useState(new Audio(mySound2));
   const [time, setTime] = useState("00:00:00");
   const [interval, setIntervalReact] = useState(0);
   const [toggleReset, setToggleReset] = useState(false);
@@ -34,7 +34,7 @@ const useTimer = ({ res = 0 } = {}) => {
       timeMillis = 0;
       setToggleReset(false);
       setTime(formatTime(timeMillis));
-      console.log('reset')
+      console.log("reset");
       fnStop();
       return;
     }
@@ -51,18 +51,18 @@ const useTimer = ({ res = 0 } = {}) => {
         } else if (timeMillis <= 0 && !breakTime && res == "pomo") {
           timeMillis = convertToMil(time) + 1000;
           breakTime = true;
-          audioStart.volume = 0.3;
-          audioStart.play();
+          // audioStart.volume = 0.3;
+          // audioStart.play();
           notifi();
           console.log("pomo descam");
         }
 
         // Condicion para Timer
         if (timeMillis <= 0 && res == "timer") {
-          audioBreak.volume = 0.3;
-          audioBreak.play();
+          // audioBreak.volume = 0.3;
+          // audioBreak.play();
           notifi();
-          console.log(interval);
+          console.log('stop timer', interval);
           clearInterval(interval);
           return;
         }
@@ -82,11 +82,10 @@ const useTimer = ({ res = 0 } = {}) => {
         }
       }, 500)
     );
-    console.log(interval);
-
   };
   const fnStop = () => {
     clearInterval(interval);
+    console.log('stop timer', interval);
   };
 
   return {
