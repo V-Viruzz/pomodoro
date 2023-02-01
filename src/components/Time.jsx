@@ -1,19 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from './Button'
 import useTimer from '../utils/hooks'
 // import { convertPretty } from './utils/convert'
 import InputTime from './InputTime'
 import './Style/Time.css'
 
-function Time ({ title }) {
+function Time({ title }) {
   // const pomodoro = useTimer({ res: 'pomo' })
   // const timer = useTimer({ res: 'timer' })
   // const chrono = useTimer({ res: 'chrono' })
-  const timeHook = useTimer({ res: title })
+  const time = useTimer({ res: title })
 
-  const [inputToggle, setInputToggle] = useState(true)
-  // const [resetBtn, setResetBtn] = useState(reset)
+  const [inputToggle, setInputToggle] = useState(false)
+  const [resetBtn, setResetBtn] = useState(true)
   const [nameButton, setnameButton] = useState('Start')
+
+  const ButtonToggle = () => {
+    resetBtn ? setnameButton('Pause') : setnameButton('Start')
+    setResetBtn(!resetBtn)
+    setInputToggle(false)
+  }
+
+  const onChange = (date, timeString) => {
+    console.log(date, timeString)
+    time.setValue(timeString)
+  }
+  // useEffect(() => {
+  //   console.log(time.time)
+  // }, [time.time])
 
   return (
     <div className='time'>
@@ -26,12 +40,11 @@ function Time ({ title }) {
           <span
             className='value'
             onClick={() => {
-              if (!title === 'Chronometer') {
-                setInputToggle(!inputToggle)
-              }
+              if (title === 'Chronometer') return
+              setInputToggle(!inputToggle)
             }}
           >
-            {timeHook.time}
+            {time.time}
           </span>
         </p>
       </div>
@@ -41,11 +54,8 @@ function Time ({ title }) {
           text={nameButton}
           isButtonClick
           clickFunct={() => {
-            // resetBtn ? setnameButton('Reset') : setnameButton('Start')
-            // reset ? setResetBtn(!resetBtn) : ''
-
-            timeHook.fnStart()
-            setInputToggle(true)
+            ButtonToggle()
+            time.fnStart()
           }}
         />
 
@@ -54,13 +64,13 @@ function Time ({ title }) {
           isButtonClick={false}
           clickFunct={() => {
             // nameButton == 'Reset' ? setnameButton('Start') : ''
-            timeHook.fnStop()
+            time.fnStop()
           }}
         />
-
       </div>
-      <div className={`container-input ${inputToggle ? 'invisible' : ''}`}>
-        <InputTime />
+
+      <div className={`container-input ${inputToggle ? '' : 'invisible'}`}>
+        <InputTime onChange={onChange} />
       </div>
     </div>
   )

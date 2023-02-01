@@ -12,23 +12,65 @@
   font-size: 40px;
   margin-bottom: 17rem;
 }
-.container-input .container-input-son{
-  width: 23rem;
-  height: 8rem;
+
+
+.input-conteiner {
+  background-color: rgb(24, 24, 24);
+  height: 100px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 25px;
-  font-size: 40px;
-  background-color: rgb(41, 41, 41);
+  border-radius: 14px;
 }
 
-.container-time .container-input input {
-  width: 300px !important;
-  height: 40px;
-  font-size: 30px;
-  padding: 15px;
-  border: solid 1px rgba(255, 255, 255, 0.24);
-  border-radius: 20px;
+
+
+.App .ant-picker {
+  background-color: black;
+  border: 1px solid rgb(87, 87, 87);
+  border-radius: 14px;
+  height: 60px;
+  width: 250px;
+
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-picker:hover,
+:where(.css-dev-only-do-not-override-ixblex).ant-picker-focused {
+  box-shadow: 0 0 0 2px rgba(187, 187, 187, 0.568)
+}
+
+.App .ant-picker .ant-picker-input input {
+  color: white;
+  font-size: 20px;
+}
+
+input::placeholder {
+  color: rgb(97, 97, 97) !important;
+  font-size: 1.2em;
+}
+
+
+/*--------------------------------------------- */
+
+.ant-picker-panel-container {
+  background-color: rgb(31, 31, 31);
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-picker-dropdown .ant-picker-panel-container {
+  background: #161616;
+}
+
+.ant-picker-time-panel-column::-webkit-scrollbar {
+  display: none;
+}
+
+.ant-picker-content ul li div {
+  color: rgb(255, 255, 255) !important;
+}
+
+:where(.css-dev-only-do-not-override-ixblex).ant-picker-dropdown .ant-picker-time-panel-column>li.ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+  /* color: rgb(255, 0, 0) !important; */
+  background-color: #272727;
 }

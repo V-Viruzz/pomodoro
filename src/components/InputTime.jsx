@@ -1,14 +1,26 @@
-import React from "react";
-import TimeField from "react-simple-timefield";
+import { TimePicker } from 'antd'
+import './Style/InputTime.css'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+dayjs.extend(customParseFormat)
 
-import "./Style/InputTime.css";
+function InputTime ({ onChange }) {
+  // const onChange = (time, timeString) => {
+  //   console.log(time, timeString)
+  // }
 
-function InputTime({ onChange }) {
   return (
-    <div className="container-input-son">
-      <TimeField value={"00:00:00"} showSeconds={true} onChange={onChange} />
-    </div>
-  );
-}
+    <div className='input-conteiner'>
 
-export default InputTime;
+      <TimePicker
+        popupStyle={{
+          scale: '1.5'
+        }}
+        placeholder='Select a time'
+        onChange={onChange}
+        defaultOpenValue={dayjs('00:00:00', 'HH:mm:ss')}
+      />
+    </div>
+  )
+}
+export default InputTime

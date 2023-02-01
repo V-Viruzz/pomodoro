@@ -12,8 +12,8 @@ const useTimer = ({ res = 0 } = {}) => {
   const [audioBreak] = useState(new Audio(mySound))
   const [audioStart] = useState(new Audio(mySound2))
   const [time, setTime] = useState('00:00:00')
-  const [toggleReset, setToggleReset] = useState(false)
   const setValue = (value) => setTime(value)
+  const [toggleReset, setToggleReset] = useState(false)
   let breakTime = true
   let timeMillis
   let interval

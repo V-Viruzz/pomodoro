@@ -5,7 +5,7 @@ import Time from './components/Time'
 // import useTimer from './utils/hooks'
 // import { convertPretty } from './utils/convert'
 
-function App () {
+function App() {
   // const pomodoro = useTimer({ res: 'pomo' })
   // const timer = useTimer({ res: 'timer' })
   // const chrono = useTimer({ res: 'chrono' })
