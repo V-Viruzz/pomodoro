@@ -1,33 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Button from './Button'
 import useTimer from '../utils/hooks'
 // import { convertPretty } from './utils/convert'
 import InputTime from './InputTime'
 import './Style/Time.css'
 
-function Time({ title }) {
-  // const pomodoro = useTimer({ res: 'pomo' })
-  // const timer = useTimer({ res: 'timer' })
-  // const chrono = useTimer({ res: 'chrono' })
-  const time = useTimer({ res: title })
+// eslint-disable-next-line react/prop-types
+function Time ({ title, type }) {
+  const time = useTimer({ res: type })
 
   const [inputToggle, setInputToggle] = useState(false)
   const [resetBtn, setResetBtn] = useState(true)
   const [nameButton, setnameButton] = useState('Start')
 
   const ButtonToggle = () => {
-    resetBtn ? setnameButton('Pause') : setnameButton('Start')
+    if (time.time === '00:00') return
+    resetBtn ? setnameButton('Reset') : setnameButton('Start')
     setResetBtn(!resetBtn)
     setInputToggle(false)
   }
-
-  const onChange = (date, timeString) => {
-    console.log(date, timeString)
-    time.setValue(timeString)
-  }
-  // useEffect(() => {
-  //   console.log(time.time)
-  // }, [time.time])
 
   return (
     <div className='time'>
@@ -52,10 +43,9 @@ function Time({ title }) {
       <div className='buttons-container'>
         <Button
           text={nameButton}
-          isButtonClick
           clickFunct={() => {
             ButtonToggle()
-            time.fnStart()
+            time.Start()
           }}
         />
 
@@ -64,13 +54,13 @@ function Time({ title }) {
           isButtonClick={false}
           clickFunct={() => {
             // nameButton == 'Reset' ? setnameButton('Start') : ''
-            time.fnStop()
+            time.Stop()
           }}
         />
       </div>
 
       <div className={`container-input ${inputToggle ? '' : 'invisible'}`}>
-        <InputTime onChange={onChange} />
+        <InputTime onChange={time.handleValue} />
       </div>
     </div>
   )

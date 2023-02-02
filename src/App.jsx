@@ -1,15 +1,8 @@
 import React, { useEffect } from 'react'
 import './App.css'
 import Time from './components/Time'
-// import InputTime from './components/InputTime'
-// import useTimer from './utils/hooks'
-// import { convertPretty } from './utils/convert'
 
-function App() {
-  // const pomodoro = useTimer({ res: 'pomo' })
-  // const timer = useTimer({ res: 'timer' })
-  // const chrono = useTimer({ res: 'chrono' })
-
+function App () {
   useEffect(() => {
     Notification.requestPermission()
     // .then((response) => console.log("respuesta", response));
@@ -19,21 +12,9 @@ function App() {
     <div className='App'>
       <main className='container-app'>
         <div className='container-time'>
-          <Time title='Pomodoro' />
-          <Time
-            title='Timer'
-          // valueTime={convertPretty(timer.time)}
-          // clickStart={timer.fnStart}
-          // clickStop={timer.fnStop}
-          // input={
-          //   <InputTime onChange={(event, value) => {
-          //     pomodoro.fnStop()
-          //     timer.setValue(value)
-          //   }}
-          //   />
-          // }
-          />
-          <Time title='Chronometer' />
+          <Time title='Pomodoro' type='pomo' />
+          <Time title='Timer' type='timer' />
+          <Time title='Chronometer' type='chrono' />
         </div>
       </main>
     </div>

@@ -1,66 +1,47 @@
 import { useState } from 'react'
-import { convertToMil, formatTime } from './convert'
-import mySound from '../assets/pomoStart.mp3'
-import mySound2 from '../assets/pomoFinal.mp3'
-
-const NOTIFICATION_TITLE = 'Pomodoro ACABO!'
-const NOTIFICATION_BODY =
-  'Tomate 5 minutos de descanso, preferiblemente no sentado'
-const CLICK_MESSAGE = 'Notification clicked!'
+import { convertPretty, convertToMil, formatStringTime } from './convert'
+import notification from './notification'
 
 const useTimer = ({ res = 0 } = {}) => {
-  const [audioBreak] = useState(new Audio(mySound))
-  const [audioStart] = useState(new Audio(mySound2))
-  const [time, setTime] = useState('00:00:00')
-  const setValue = (value) => setTime(value)
+  const [time, setTime] = useState('00:00')
   const [toggleReset, setToggleReset] = useState(false)
+  const [intervalState, setIntervalState] = useState(null)
   let breakTime = true
-  let timeMillis
+  let timeMillis = convertToMil(time)
   let interval
-  timeMillis = convertToMil(time)
 
-  function notifi (typeAudio) {
-    const noti = new Notification(NOTIFICATION_TITLE, { body: NOTIFICATION_BODY })
-    noti.onclick = () => console.log(CLICK_MESSAGE)
-
-    if (typeAudio === 'break') {
-      audioBreak.volume = 0.3
-      audioBreak.play()
-    } else if (typeAudio === 'start') {
-      audioStart.volume = 0.3
-      audioStart.play()
-    }
-  }
-  const fnStart = () => {
-    let dateNow = new Date().getSeconds()
-    setToggleReset(!toggleReset)
-
-    // Condicional para chrono
+  const Start = () => {
+    if (!toggleReset) return
     if (res === 'chrono' && toggleReset) {
       timeMillis = 0
-      setToggleReset(false)
-      setTime(formatTime(timeMillis))
+      setTime(formatStringTime(timeMillis))
       console.log('reset')
-      fnStop()
+      Stop()
+      setToggleReset(false)
       return
     }
+
+    setToggleReset(!toggleReset)
+
+    let dateNow = new Date().getSeconds()
+
+    // Condicional para chrono
+
     interval = setInterval(() => {
       // Condicion para Pomodoro
       if (timeMillis <= 0 && breakTime && res === 'pomo') {
         timeMillis = 5000 + 1000
         breakTime = false
-        console.log('pomo start')
-        notifi('start')
+        notification('start')
       } else if (timeMillis <= 0 && !breakTime && res === 'pomo') {
         timeMillis = convertToMil(time) + 1000
         breakTime = true
-        notifi('break')
+        notification('break')
       }
 
       // Condicion para Timer
       if (timeMillis <= 0 && res === 'timer') {
-        console.log('stop timer', interval)
-        notifi('break')
+        notification('break')
         clearInterval(interval)
         return
       }
@@ -70,26 +51,31 @@ const useTimer = ({ res = 0 } = {}) => {
       // Ejecucion cada segundo
       if (dateNow !== dateIncre) {
         dateNow = dateIncre
-        if (res === 'chrono') {
-          timeMillis = timeMillis + 1000
-        } else {
-          timeMillis = timeMillis - 1000
-        }
+        res === 'chrono'
+          ? timeMillis = timeMillis + 1000
+          : timeMillis = timeMillis - 1000
 
-        setTime(formatTime(timeMillis))
+        setTime(formatStringTime(timeMillis))
       }
     }, 500)
+    setIntervalState(interval)
   }
-  const fnStop = () => {
-    console.log('stop timer', interval)
-    clearInterval(interval)
+
+  const Stop = () => {
+    clearInterval(intervalState)
+    setToggleReset(true)
+  }
+
+  const handleValue = (date, timeString) => {
+    setTime(convertPretty(timeString))
+    Stop()
   }
 
   return {
     time,
-    setValue,
-    fnStart,
-    fnStop
+    Start,
+    Stop,
+    handleValue
   }
 }
 

@@ -1,3 +1,4 @@
+import React from 'react'
 import { TimePicker } from 'antd'
 import './Style/InputTime.css'
 import dayjs from 'dayjs'
@@ -5,13 +6,8 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 dayjs.extend(customParseFormat)
 
 function InputTime ({ onChange }) {
-  // const onChange = (time, timeString) => {
-  //   console.log(time, timeString)
-  // }
-
   return (
     <div className='input-conteiner'>
-
       <TimePicker
         popupStyle={{
           scale: '1.5'
