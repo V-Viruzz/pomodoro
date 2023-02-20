@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from './Button'
 import useTimer from '../utils/hooks'
 // import { convertPretty } from './utils/convert'
@@ -7,18 +7,21 @@ import './Style/Time.css'
 
 // eslint-disable-next-line react/prop-types
 function Time ({ title, type }) {
-  const time = useTimer({ res: type })
-
+  const { time, Start, Stop, handleValue } = useTimer({ type })
   const [inputToggle, setInputToggle] = useState(false)
   const [resetBtn, setResetBtn] = useState(true)
   const [nameButton, setnameButton] = useState('Start')
 
   const ButtonToggle = () => {
-    if (time.time === '00:00') return
+    if (time === '00:00') return
     resetBtn ? setnameButton('Reset') : setnameButton('Start')
     setResetBtn(!resetBtn)
     setInputToggle(false)
   }
+
+  useEffect(() => {
+    console.log('create start')
+  }, [Start])
 
   return (
     <div className='time'>
@@ -35,7 +38,7 @@ function Time ({ title, type }) {
               setInputToggle(!inputToggle)
             }}
           >
-            {time.time}
+            {time}
           </span>
         </p>
       </div>
@@ -45,7 +48,7 @@ function Time ({ title, type }) {
           text={nameButton}
           clickFunct={() => {
             ButtonToggle()
-            time.Start()
+            Start()
           }}
         />
 
@@ -54,13 +57,13 @@ function Time ({ title, type }) {
           isButtonClick={false}
           clickFunct={() => {
             // nameButton == 'Reset' ? setnameButton('Start') : ''
-            time.Stop()
+            Stop()
           }}
         />
       </div>
 
       <div className={`container-input ${inputToggle ? '' : 'invisible'}`}>
-        <InputTime onChange={time.handleValue} />
+        <InputTime onChange={handleValue} />
       </div>
     </div>
   )
