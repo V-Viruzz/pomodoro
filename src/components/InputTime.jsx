@@ -1,9 +1,6 @@
 import React from 'react'
 import { TimePicker } from 'antd'
 import './Style/InputTime.css'
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
-dayjs.extend(customParseFormat)
 
 function InputTime ({ onChange }) {
   return (
@@ -12,9 +9,9 @@ function InputTime ({ onChange }) {
         popupStyle={{
           scale: '1.5'
         }}
+        showNow={false}
         placeholder='Select a time'
         onChange={onChange}
-        defaultOpenValue={dayjs('00:00:00', 'HH:mm:ss')}
       />
     </div>
   )

@@ -1,27 +1,33 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Button from './Button'
-import useTimer from '../utils/hooks'
-// import { convertPretty } from './utils/convert'
+import useTimer from '../hooks/useTimer'
 import InputTime from './InputTime'
 import './Style/Time.css'
 
-// eslint-disable-next-line react/prop-types
 function Time ({ title, type }) {
   const { time, Start, Stop, handleValue } = useTimer({ type })
   const [inputToggle, setInputToggle] = useState(false)
   const [resetBtn, setResetBtn] = useState(true)
   const [nameButton, setnameButton] = useState('Start')
 
-  const ButtonToggle = () => {
-    if (time === '00:00') return
+  const handleInput = () => {
+    if (type === 'chrono') return
+    setInputToggle(!inputToggle)
+  }
+
+  const startButton = () => {
+    if (time === '00:00' && type !== 'chrono') return
     resetBtn ? setnameButton('Reset') : setnameButton('Start')
     setResetBtn(!resetBtn)
     setInputToggle(false)
+    Start({ time, toggleReset: resetBtn })
   }
 
-  useEffect(() => {
-    console.log('create start')
-  }, [Start])
+  const stopButton = () => {
+    setResetBtn(!resetBtn)
+    resetBtn ? setnameButton('Reset') : setnameButton('Start')
+    Stop()
+  }
 
   return (
     <div className='time'>
@@ -33,10 +39,7 @@ function Time ({ title, type }) {
         <p>
           <span
             className='value'
-            onClick={() => {
-              if (title === 'Chronometer') return
-              setInputToggle(!inputToggle)
-            }}
+            onClick={handleInput}
           >
             {time}
           </span>
@@ -46,19 +49,13 @@ function Time ({ title, type }) {
       <div className='buttons-container'>
         <Button
           text={nameButton}
-          clickFunct={() => {
-            ButtonToggle()
-            Start()
-          }}
+          clickFunct={startButton}
         />
 
         <Button
           text='Stop'
           isButtonClick={false}
-          clickFunct={() => {
-            // nameButton == 'Reset' ? setnameButton('Start') : ''
-            Stop()
-          }}
+          clickFunct={stopButton}
         />
       </div>
 

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import './App.css'
+import { useEffect } from 'react'
 import Time from './components/Time'
+import './App.css'
 
 function App () {
   useEffect(() => {

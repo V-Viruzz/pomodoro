@@ -1,46 +1,41 @@
-import { useState, useRef } from 'react'
-import { convertPretty, convertToMil, formatStringTime } from './convert'
-import notification from './notification'
+import { useState, useRef, useCallback } from 'react'
+import { convertPretty, convertToMil, formatStringTime } from '../utils/convert'
+import notification from '../utils/notification'
 
 const useTimer = ({ type = 0 } = {}) => {
   const [time, setTime] = useState('00:00')
-  const [toggleReset, setToggleReset] = useState(false)
   const intervalRef = useRef()
-  let breakTime = true
-  let timeMillis = convertToMil(time)
-  // let interval
 
-  const Start = () => {
+  const Start = useCallback(({ time, toggleReset }) => {
     let dateNow = new Date().getSeconds()
+    let timeMillis = convertToMil(time)
+    let breakTime = true
+
+    console.log(toggleReset)
+    if (!toggleReset) {
+      timeMillis = 0
+      setTime(formatStringTime(timeMillis))
+      Stop()
+      return
+    }
 
     if (type === 'chrono') {
-      if (toggleReset) {
-        timeMillis = 0
-        setTime(formatStringTime(timeMillis))
-        console.log('reset')
-        Stop()
-        setToggleReset(false)
-        return
-      }
-
       intervalRef.current = setInterval(() => {
         const dateIncre = new Date().getSeconds()
 
         if (dateNow !== dateIncre) {
           dateNow = dateIncre
-          type === 'chrono'
-            ? timeMillis = timeMillis + 1000
-            : timeMillis = timeMillis - 1000
-
+          timeMillis = timeMillis + 1000
           setTime(formatStringTime(timeMillis))
         }
-      }, 500)
+      }, 300)
       return
     }
 
     // let dateNow = new Date().getSeconds()
 
     intervalRef.current = setInterval(() => {
+      console.log(intervalRef.current)
       // Condicion para Pomodoro
       if (timeMillis <= 0 && breakTime && type === 'pomo') {
         timeMillis = 5000 + 1000
@@ -67,12 +62,11 @@ const useTimer = ({ type = 0 } = {}) => {
         timeMillis = timeMillis - 1000
         setTime(formatStringTime(timeMillis))
       }
-    }, 500)
-  }
+    }, 300)
+  }, [])
 
   const Stop = () => {
     clearInterval(intervalRef.current)
-    setToggleReset(true)
   }
 
   const handleValue = (date, timeString) => {
@@ -80,12 +74,7 @@ const useTimer = ({ type = 0 } = {}) => {
     Stop()
   }
 
-  return {
-    time,
-    Start,
-    Stop,
-    handleValue
-  }
+  return { time, Start, Stop, handleValue }
 }
 
 export default useTimer
