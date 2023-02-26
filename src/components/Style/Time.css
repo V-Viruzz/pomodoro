@@ -1,7 +1,7 @@
 .time {
   height: 46rem;
   width: 26rem;
-  margin: 0px 50px;
+  /* margin: 0px 50px; */
   background-color: black;
   border-radius: 35px;
   display: flex;
@@ -13,6 +13,7 @@
   font-size: 4em;
   font-family: 'Karla', sans-serif;
 }
+
 .title h2 {
   font-size: 30px;
 }

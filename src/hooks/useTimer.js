@@ -4,14 +4,15 @@ import notification from '../utils/notification'
 
 const useTimer = ({ type = 0 } = {}) => {
   const [time, setTime] = useState('00:00')
+  const restTime = useRef('0')
   const intervalRef = useRef()
+  restTime.current = window.localStorage.getItem('restPomo') * 60000
 
   const Start = useCallback(({ time, toggleReset }) => {
     let dateNow = new Date().getSeconds()
     let timeMillis = convertToMil(time)
     let breakTime = true
 
-    console.log(toggleReset)
     if (!toggleReset) {
       timeMillis = 0
       setTime(formatStringTime(timeMillis))
@@ -35,10 +36,9 @@ const useTimer = ({ type = 0 } = {}) => {
     // let dateNow = new Date().getSeconds()
 
     intervalRef.current = setInterval(() => {
-      console.log(intervalRef.current)
       // Condicion para Pomodoro
       if (timeMillis <= 0 && breakTime && type === 'pomo') {
-        timeMillis = 5000 + 1000
+        timeMillis = restTime.current + 1000
         breakTime = false
         notification('start')
       } else if (timeMillis <= 0 && !breakTime && type === 'pomo') {

@@ -1,19 +1,73 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
   text-align: center;
+  user-select: none;
+  width: 100%;
+  /* width: 100vw;
+  height: 100vh; */
 }
-.container-app {
-  min-width: 100vh;
+
+.App {
+
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  height: 100vh;
 }
+
 .container-time {
   display: flex;
+  width: 100%;
+  justify-content: space-evenly;
 }
 
 .time .invisible {
   display: none;
+}
+
+.container-header {
+  /* background-color: black; */
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.button-setting {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+@media (max-width: 1320px) {
+  .container-time {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    /* gap: 50px; */
+    height: 166em;
+    /* margin-top: 0px; */
+    justify-content: space-around;
+
+  }
+
+  .App {
+    height: 100%;
+  }
+}
+
+@media (max-width: 800px) {
+  body {
+    background-color: black;
+    transition: background-color 1.5s ease-out;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
 }
