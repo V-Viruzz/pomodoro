@@ -1,6 +1,6 @@
 import React from 'react'
 import { TimePicker } from 'antd'
-import './Style/InputTime.css'
+import './InputTime.css'
 
 function InputTime ({ onChange }) {
   return (

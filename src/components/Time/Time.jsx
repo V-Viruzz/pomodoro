@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import Button from './Button'
-import useTimer from '../hooks/useTimer'
-import InputTime from './InputTime'
-import './Style/Time.css'
+import Button from '../Button/Button'
+import useTimer from '../../hooks/useTimer'
+import InputTime from '../InputTime/InputTime'
+import './Time.css'
 
 function Time ({ title, type }) {
   const { time, Start, Stop, handleValue } = useTimer({ type })

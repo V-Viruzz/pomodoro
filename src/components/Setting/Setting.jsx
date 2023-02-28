@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './Style/Setting.css'
+import './Setting.css'
 
 function Setting ({ classToggle, handleClassToggle }) {
   const [valueInput, setValueInput] = useState(window.localStorage.getItem('restPomo'))

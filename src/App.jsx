@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import Time from './components/Time'
-import Setting from './components/Setting'
+import Time from './components/Time/Time'
+import Setting from './components/Setting/Setting'
 import './App.css'
 
 function App () {

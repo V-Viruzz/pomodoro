@@ -70,6 +70,7 @@ const useTimer = ({ type = 0 } = {}) => {
   }
 
   const handleValue = (date, timeString) => {
+    console.log(timeString)
     setTime(convertPretty(timeString))
     Stop()
   }
