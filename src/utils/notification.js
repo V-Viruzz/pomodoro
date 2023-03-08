@@ -7,9 +7,9 @@ const NOTIFICATION_BODY =
 const CLICK_MESSAGE = 'Notification clicked!'
 
 function notification (typeAudio) {
-  const audioBreak = new Audio(mySound)
-  const audioStart = new Audio(mySound2)
-  const noti = new Notification(NOTIFICATION_TITLE, { body: NOTIFICATION_BODY })
+  const audioBreak = new window.Audio(mySound)
+  const audioStart = new window.Audio(mySound2)
+  const noti = new window.Notification(NOTIFICATION_TITLE, { body: NOTIFICATION_BODY })
   noti.onclick = () => console.log(CLICK_MESSAGE)
 
   if (typeAudio === 'break') {

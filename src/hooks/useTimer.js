@@ -1,14 +1,18 @@
 import { useState, useRef, useCallback } from 'react'
 import { convertPretty, convertToMil, formatStringTime } from '../utils/convert'
+// import useInput from '../hooks/useInput'
 import notification from '../utils/notification'
 
 const useTimer = ({ type = 0 } = {}) => {
+  // const { timeString } = useInput(type)
   const [time, setTime] = useState('00:00')
   const restTime = useRef('0')
   const intervalRef = useRef()
+  // const { timeString } = useInput(type)
   restTime.current = window.localStorage.getItem('restPomo') * 60000
 
   const Start = useCallback(({ time, toggleReset }) => {
+    console.log(time)
     let dateNow = new Date().getSeconds()
     let timeMillis = convertToMil(time)
     let breakTime = true
@@ -69,9 +73,10 @@ const useTimer = ({ type = 0 } = {}) => {
     clearInterval(intervalRef.current)
   }
 
-  const handleValue = (date, timeString) => {
-    console.log(timeString)
-    setTime(convertPretty(timeString))
+  const handleValue = (data) => {
+    console.log(data)
+    setTime(convertPretty(data))
+
     Stop()
   }
 

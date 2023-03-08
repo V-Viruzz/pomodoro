@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import Button from '../Button/Button'
 import useTimer from '../../hooks/useTimer'
 import InputTime from '../InputTime/InputTime'
+import useInput from '../../hooks/useInput'
 import './Time.css'
 
 function Time ({ title, type }) {
   const { time, Start, Stop, handleValue } = useTimer({ type })
+  const { timeString } = useInput(type)
   const [inputToggle, setInputToggle] = useState(false)
   const [resetBtn, setResetBtn] = useState(true)
   const [nameButton, setnameButton] = useState('Start')
@@ -13,6 +15,12 @@ function Time ({ title, type }) {
   const handleInput = () => {
     if (type === 'chrono') return
     setInputToggle(!inputToggle)
+  }
+  const handleOk = () => {
+    handleInput()
+    handleValue(timeString)
+    setnameButton('Start')
+    setResetBtn(true)
   }
 
   const startButton = () => {
@@ -60,7 +68,7 @@ function Time ({ title, type }) {
       </div>
 
       <div className={`container-input ${inputToggle ? '' : 'invisible'}`}>
-        <InputTime onChange={handleValue} />
+        <InputTime select={type} handleOk={handleOk} />
       </div>
     </div>
   )

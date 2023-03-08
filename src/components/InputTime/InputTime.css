@@ -9,14 +9,15 @@
   align-items: center;
   /* justify-content: space-evenly; */
   border-radius: 25px;
-  font-size: 40px;
-  margin-bottom: 17rem;
+  font-size: 20px;
+  /* margin-bottom: 17rem; */
+  margin-bottom: 26rem;
 }
 
 
 .input-conteiner {
-  background-color: rgb(24, 24, 24);
-  height: 100px;
+  /* background-color: rgb(24, 24, 24); */
+  /* height: 100px; */
   width: 300px;
   display: flex;
   flex-direction: column;

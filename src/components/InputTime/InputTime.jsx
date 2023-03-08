@@ -1,18 +1,12 @@
 import React from 'react'
-import { TimePicker } from 'antd'
+// import { TimePicker } from 'antd'
+import TimePicker from '../TimePicker/TimePicker'
 import './InputTime.css'
 
-function InputTime ({ onChange }) {
+function InputTime ({ select, handleOk }) {
   return (
     <div className='input-conteiner'>
-      <TimePicker
-        popupStyle={{
-          scale: '1.5'
-        }}
-        showNow={false}
-        placeholder='Select a time'
-        onChange={onChange}
-      />
+      <TimePicker select={select} handleOk={handleOk} />
     </div>
   )
 }
