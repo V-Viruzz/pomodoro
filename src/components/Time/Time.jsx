@@ -24,14 +24,16 @@ function Time ({ title, type }) {
   }
 
   const startButton = () => {
-    if (time === '00:00' && type !== 'chrono') return
+    if (timeString === '00:00:00' && type !== 'chrono') return
     resetBtn ? setnameButton('Reset') : setnameButton('Start')
     setResetBtn(!resetBtn)
     setInputToggle(false)
-    Start({ time, toggleReset: resetBtn })
+    const newTime = time === '00:00' && type !== 'chrono' ? timeString : time
+    Start({ time: newTime, toggleReset: resetBtn })
   }
 
   const stopButton = () => {
+    if (time === '00:00' || resetBtn) return
     setResetBtn(!resetBtn)
     resetBtn ? setnameButton('Reset') : setnameButton('Start')
     Stop()

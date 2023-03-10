@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import './Setting.css'
+import iconGeneral from '../../assets/iconGeneral.svg'
+import iconAbout from '../../assets/iconAbout.svg'
 
 function Setting ({ classToggle, handleClassToggle }) {
   const [valueInput, setValueInput] = useState(window.localStorage.getItem('restPomo'))
@@ -15,15 +17,22 @@ function Setting ({ classToggle, handleClassToggle }) {
       <div className='setting'>
 
         <div className='title-setting'>
-          <div />
+
+          <div className='button-close' />
           <h4>Setting</h4>
           <div className='button-close' onClick={handleClassToggle}>×</div>
         </div>
 
         <div className='main-setting'>
           <div className='section-setting'>
-            <div className='button-section'>general</div>
-            <div className='button-section'>acerca de</div>
+            <div className='button-section'>
+              <img src={iconGeneral} className='logo react' alt='React logo' width='20px' />
+              general
+            </div>
+            <div className='button-section'>
+              <img src={iconAbout} className='logo react' alt='React logo' width='20px' />
+              acerca de
+            </div>
           </div>
 
           <div className='body-setting'>

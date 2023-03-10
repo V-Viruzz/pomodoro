@@ -1,7 +1,7 @@
 /* .input-conteiner {
 } */
 
-.num-input .input-conteiner input {
+.num-input .input-conteiner-picker input {
   color: white;
   padding: 0px;
   font-size: 30px;
@@ -14,10 +14,10 @@
   /* border-radius: 10px; */
 }
 
-.num-input .input-conteiner input:focus {
+.num-input .input-conteiner-picker input:focus {
   outline: 3px solid transparent;
 }
 
-.num-input .input-conteiner input:hover {
+.num-input .input-conteiner-picker input:hover {
   border: 0;
 }

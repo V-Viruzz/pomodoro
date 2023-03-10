@@ -91,6 +91,13 @@
   justify-content: center;
 }
 
+.button-section {
+  display: flex;
+  gap: 7px;
+  margin-left: 12px;
+
+}
+
 input[type=range] {
   background-color: rgb(33, 33, 33);
   /* height: 38px; */

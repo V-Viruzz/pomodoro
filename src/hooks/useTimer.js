@@ -4,15 +4,15 @@ import { convertPretty, convertToMil, formatStringTime } from '../utils/convert'
 import notification from '../utils/notification'
 
 const useTimer = ({ type = 0 } = {}) => {
-  // const { timeString } = useInput(type)
   const [time, setTime] = useState('00:00')
+  // const [timeSave, setTimeSave] = useState('00:00')
+  // const { timeString } = useInput(type)
   const restTime = useRef('0')
   const intervalRef = useRef()
-  // const { timeString } = useInput(type)
+
   restTime.current = window.localStorage.getItem('restPomo') * 60000
 
   const Start = useCallback(({ time, toggleReset }) => {
-    console.log(time)
     let dateNow = new Date().getSeconds()
     let timeMillis = convertToMil(time)
     let breakTime = true
@@ -36,8 +36,6 @@ const useTimer = ({ type = 0 } = {}) => {
       }, 300)
       return
     }
-
-    // let dateNow = new Date().getSeconds()
 
     intervalRef.current = setInterval(() => {
       // Condicion para Pomodoro
@@ -74,9 +72,7 @@ const useTimer = ({ type = 0 } = {}) => {
   }
 
   const handleValue = (data) => {
-    console.log(data)
     setTime(convertPretty(data))
-
     Stop()
   }
 

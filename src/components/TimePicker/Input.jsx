@@ -17,7 +17,7 @@ export default function Input ({ select, type }) {
 
   return (
     <div className='num-input'>
-      <div className='input-conteiner'>
+      <div className='input-conteiner-picker'>
         <input
           type='text'
           placeholder='00'
